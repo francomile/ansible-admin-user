@@ -1,0 +1,20 @@
+---
+# These tasks will create and setup a Admin user with full privileges on the system (Debian)
+
+- name: Create Admin user
+  user:
+    name: admin
+    comment: "Admin user"
+    shell: /bin/bash
+
+- name: Add user admin to sudoers file
+  lineinfile: "dest=/etc/sudoers state=present line='admin ALL=(ALL) NOPASSWD: ALL'"
+
+- name: Create the ~/.ssh directory
+  file: path=/home/admin/.ssh state=directory owner=admin group=admin mode=0700
+
+- name: Add authorized_keys template file
+  copy: src=authorized_keys dest=/home/admin/.ssh/authorized_keys owner=admin group=admin mode=0600 backup=no
+
+- name: Copy fixeds user .bashrc template file
+  copy: src=bashrc_admin dest=/home/admin/.bashrc owner=admin group=admin mode=644

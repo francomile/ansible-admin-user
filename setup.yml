@@ -1,0 +1,7 @@
+---
+- name: Role for creating the Admin user
+  hosts: all
+  remote_user: root
+  become: true
+  roles:
+      - admin-user
